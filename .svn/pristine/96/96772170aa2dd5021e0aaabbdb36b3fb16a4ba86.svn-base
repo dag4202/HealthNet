@@ -1,0 +1,17 @@
+from django.db import models
+from main_patient.models import Patient 
+from main_doctor.models import Doctor
+from hospital.models import Hospital 
+from procedure.models import Procedure
+
+
+class Appointment(models.Model):
+    datetime = models.DateTimeField()
+    notes = models.CharField(max_length=300)
+    description = models.CharField(max_length=300)
+    patient = models.ForeignKey('main_patient.Patient')
+    doctor = models.ForeignKey('main_doctor.Doctor')
+    hospital = models.ForeignKey('hospital.Hospital')
+    procedure = models.OneToOneField('procedure.Procedure')
+
+# Create your models here.

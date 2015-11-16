@@ -1,0 +1,30 @@
+from django.shortcuts import render
+from hospital.forms import HospitalForm, DepartmentForm
+
+def CreateHospital(request):
+	created = False
+
+	if request.method == 'POST':
+		hospital_form = HospitalForm(data = request.POST, prefix ='hospital')
+		if hospital_form.is_valid():
+			hospital = hospital_form.save(commit = False)
+			hospital.save()
+		else:
+			print(hospital_form.errors)
+	else:
+		hospital_form = HospitalForm(data = request.POST, prefix ='hospital')
+	return render(request, 'hospital.html', {'hospital_form' : hospital_form, 'created', created})
+
+
+def CreateDepartment(request):
+	created = False
+	if request.method == 'POST':
+		department_form = DepartmentForm(data = request.POST, prefix ='department')
+		if department_form.is_valid():
+			department = department_form.save(commit = False)
+			department.save()
+		else:
+			print(department_form.errors)
+	else:
+		department_form = HospitalForm(data = request.POST, prefix ='hospital')
+	return render(request, 'department.html', {'hospital_form' : hospital_form, 'created' : created})

@@ -1,0 +1,6 @@
+from django.conf.urls import patterns, url
+from main_patient import views
+
+urlpatterns = patterns('',
+	url(r'^$', views.Register, name='register'),
+)

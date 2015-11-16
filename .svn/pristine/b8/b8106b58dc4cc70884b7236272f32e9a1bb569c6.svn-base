@@ -1,0 +1,176 @@
+from django.shortcuts import render, render_to_response
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User,Group, Permission
+from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
+from main.models import LogEntry
+from django.forms.models import modelformset_factory
+from main_patient.models import Patient
+from main_patient.forms import UserForm, PatientProfileForm, DoctorProfileForm, NurseProfileForm
+from django.utils import timezone
+import logging
+
+logger = logging.getLogger(__name__)
+
+@login_required
+def profile(request):
+	logger.info("patient profile accessed")
+	cont = RequestContext(request)
+	context_dict = {}
+	u = User.objects.get(username=request.user)
+
+	try:
+		up = UserProfile.objects.get(user=u)
+	except:
+		up = None
+
+		context_dict['user'] = u
+		context_dict['userprofile'] = up
+		return render(request, 'register.html', context_dict, cont)
+
+def Register(request):
+	registered = False
+
+	if request.method == 'POST':
+		user_form = UserForm(data=request.POST,prefix = 'user')
+		patient_form = PatientProfileForm(data = request.POST,prefix = 'patient')
+
+		if user_form.is_valid() and patient_form.is_valid():
+			user = user_form.save()
+			user.set_password(user.password)
+			user.save()
+			
+			user.groups.add(Group.objects.get(name='Patient'))
+
+			profile = patient_form.save(commit = False)
+			profile.user = user
+			profile.save()
+
+			entry = LogEntry(username=user.username, datetime=timezone.now(), description='user registered')
+			entry.save()
+			registered = True
+		else:
+			print(user_form.errors, patient_form.errors)
+	else:
+		user_form = UserForm(prefix = 'user')
+		patient_form = PatientProfileForm(prefix = 'patient')
+
+	return render(request,'register.html',{'user_form': user_form,'patient_form':patient_form , 'registered':
+								registered})
+
+@login_required
+def Modify_Profile(request):
+	Updated = False
+	#PatientFormset = modelformset_factory(Patient,form = PatientProfileForm, exclude=("user",),extra = 0)
+
+	if request.method == 'POST':
+		user_form = UserForm(data=request.POST, prefix ='user',instance=request.user)
+		patient_form = PatientProfileForm(data = request.POST, prefix = 'patient', instance =request.user.patient)
+
+		#formset = PatientFormset(request.POST)
+		if patient_form.is_valid():
+			
+
+			
+			profile = patient_form.save(commit = False)
+			profile.user = user
+			profile.save()
+
+			#entry = LogEntry(username=request.POST['username'], datetime=timezone.now(), description='user login')
+			#entry.save()
+			Updated = True
+		else:
+			print(user_form.errors)
+
+			#print(user_form.errors, patient_form.errors)
+	else:
+
+		user_form = UserForm(instance = request.user)
+		#formset = PatientFormset()
+		patient_form = PatientProfileForm(instance = request.user.patient)
+
+
+
+	return render(request,'update.html',{'user_form': user_form,'patient_form':patient_form , 'Updated':
+								Updated})
+
+def RegisterDoctor(request):
+	registered = False
+	if request.method == 'POST':
+		user_form = UserForm(data = request.POST, prefix = 'user')
+		doctor_form = DoctorProfileForm(data = request.POST, prefix = 'doctor')
+
+		if user_form.is_valid() and doctor_form.is_valid():
+			user = user_form.save()
+			user.set_password(user.password)
+			user.save()
+
+			user.groups.add(Group.objects.get(name = 'Doctor'))
+
+			profile = doctor_form.save(commit = False)
+			profile.user = user
+			profile.save()
+
+			entry = LogEntry(username = user.username, datetime = timezone.now(), description = 'Doctor registered')
+			entry.save()
+			registered = True
+		else:
+			print(user_form.errors)
+			print(doctor_form.errors)
+	else:
+		user_form = UserForm(prefix = 'user')
+		doctor_form = DoctorProfileForm(prefix = 'doctor')
+
+	return render(request, 'doctor.html', {'user_form' : user_form, 'doctor_form' : doctor_form,
+	 'registered' : registered})
+
+def RegisterNurse(request):
+	registered = False
+	if request.method == 'POST':
+		user_form = UserForm(data = request.POST, prefix = 'user')
+		nurse_form = NurseProfileForm(data = request.POST, prefix = 'nurse')
+
+		if user_form.is_valid() and nurse_form.is_valid():
+			user = user_form.save()
+			user.set_password(user.password)
+			user.save()
+
+			user.groups.add(Group.objects.get(name = 'Nurse'))
+
+			profile = nurse_form.save(commit = False)
+			profile.user = user
+			profile.save()
+
+			entry = LogEntry(username = user.username, datetime = timezone.now(), description = 'Nurse registered')
+			entry.save()
+			registered = True
+		else:
+			print(user_form.errors, nurse_form.errors)
+	else:
+		user_form = UserForm(prefix = 'user')
+		nurse_form = NurseProfileForm(prefix = 'nurse')
+
+	return render(request, 'nurse.html', {'user_form' : user_form, 'nurse_form' : nurse_form,
+	 'registered' : registered})
+
+def RegisterAdmin(request):
+	registered = False
+	if request.method == 'POST':
+		user_form = UserForm(data = request.POST, prefix = 'user')
+
+		if user_form.is_valid():
+			user = user_form.save()
+			user.set_password(user.password)
+			user.save()
+
+			user.groups.add(Group.objects.get(name = 'Sys Admin'))
+
+			entry = LogEntry(username = user.username, datetime = timezone.now(), description = 'Sys Admin registered')
+			entry.save()
+			registered = True
+		else:
+			print(user_form.errors)
+	else:
+		user_form = UserForm(prefix = 'user')
+
+	return render(request, 'admin.html', {'user_form' : user_form, 'registered' : registered})

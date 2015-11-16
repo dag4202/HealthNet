@@ -1,0 +1,34 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Doctor Register</title>
+	<link rel="stylesheet" type="text/css" href="{% static "doctor.css" %}">
+</head>
+<body>
+	<div id="header">
+		<a href="/"><div id="logo"></div></a>
+		<div id="logout"><a href="/login/?logout=true">logout</a></div>
+		<div id="menu">
+			<a href="/"><div class="menu">Profile</div></a>
+			<a href="/calendar/"><div class="menu">Calendar</div></a>
+		</div>
+	</div>
+	<div id = "Content_left">
+		{% if done %}
+		<p> Created Sucessfully </p>
+		<a href="/">Click here to return to the main page.</a>
+		{% else %}
+
+		<form action="createdepartment/" method="post">
+			{% csrf_token %}
+			{{ form.non_field_errors }}
+			{{ form.errors}}
+			{{ form.as_p }}
+
+			<input type="submit" value="Submit" />
+		</form>
+	</div>
+	{% endif %}
+	</html>

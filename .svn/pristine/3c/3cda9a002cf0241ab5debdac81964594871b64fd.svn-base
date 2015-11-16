@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<body>
+	{% if registered %}
+
+	<p> Registration successful! </p>
+	<a href="/">Click here to go to login.</a>
+	{% else %}
+		<form action="/register/" method="post">{% csrf_token %}
+		<!--{{form.errors}}-->
+
+		<!--First Name field-->
+		
+		<div class="fieldWrapper">
+			{{form.fname.errors}}		
+			<p><label for="fname">First Name: </label></p>
+			<!--<input id="fname" type="text" name="fname" maxlength="100"></p>-->
+			{{form.fname}}
+		</div>
+
+		<!--Last Name field-->
+		<div class="fieldWrapper">
+			{{form.lname.errors}}	
+			<p><label for="lname">Last Name: </label></p>
+			{{form.lname}}
+		</div>
+
+		<!--Username field-->
+		<div class="fieldWrapper">
+			{{form.username.errors}}	
+			<p><label for="username">Username: </label></p>
+			{{form.lname}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{form.password.errors}}	
+			<p><label for="password">Password: </label></p>
+			{{form.password}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{form.password2.errors}}	
+			<p><label for="password2">Confirm Password: </label></p>
+			{{form.password2}}
+		</div>
+
+		<!--dob field-->
+		<div class="fieldWrapper">
+			{{form.dob.errors}}	
+			<p><label for="DOB">DOB: </label></p>
+			<input type="date" name="dob" maxlength="100">
+			<!--{{form.dob}}-->
+		</div>	
+
+		<!--email field-->
+		<div class="fieldWrapper">
+			{{form.Email.errors}}
+			<p><label for="email">Email: </label></p>
+			{{form.email}}
+		</div>
+
+		<!--insurance field-->
+		<div class="fieldWrapper">
+			{{form.Email.errors}}
+			<p><label for="Insurance">Insurance Provider: </label></p>
+			{{form.insurance}}
+		</div>
+
+		<!--Insurance number field-->
+		<div class="fieldWrapper">
+			{{form.Email.errors}}
+			<p><label for="Insurance Number">Insurance Number: </label></p>
+			{{form.insuranceNum}}
+		</div>
+
+		<input type="submit" name="submit" value="Register" />
+	</form>
+
+	{% endif %}
+</body>
+</html>
+<!--
+<form action="/register/" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {{form.errors}}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+-->

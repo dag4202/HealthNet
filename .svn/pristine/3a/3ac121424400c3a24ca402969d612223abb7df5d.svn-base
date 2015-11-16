@@ -1,0 +1,12 @@
+from django.conf.urls import patterns, url
+from main import views
+
+urlpatterns = patterns('main.views',
+	url(r'^logview', views.logView, name='log'),
+	url(r'^switch', views.switchAccept, name='accepting'),
+        url(r'^patient/(?P<patient_id>\d+)', views.UpdateMI, name = 'update'),
+        url(r'^patient/', views.SelectPatient, name='select'),
+    url(r"", "main", name='main'),
+    url(r'^$', views.logView, name = 'mahname'),
+)
+

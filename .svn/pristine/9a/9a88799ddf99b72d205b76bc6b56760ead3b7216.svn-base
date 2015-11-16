@@ -1,0 +1,24 @@
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+#from calender import views
+from login import views
+from main_patient.views import Modify_Profile, export
+admin.autodiscover()
+
+urlpatterns = patterns('',
+    # Examples:
+    # url(r'^$', 'healthNet.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+    
+    url(r'^$', include('main.urls', namespace="main")),
+    url(r'^export/', include('main_patient.urls', namespace = 'export')),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^login/', include('login.urls', namespace="login")),
+    url(r'^reg', include('main_patient.urls', namespace="admin register")),
+    url(r'^profile/', include('main_patient.urls', namespace="profile")),
+    url(r'^update/', Modify_Profile),
+    url(r'^register/', include('main_patient.urls', namespace="register")),
+    url(r'^calendar/', include('calender.urls', namespace="calender")),
+    url(r'^system', include('main.urls', namespace="log")),
+    url(r'^myPatients/', include('main_patient.urls', namespace = "myPatients")),
+)

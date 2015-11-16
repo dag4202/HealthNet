@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Register</title>
+	<link rel="stylesheet" type="text/css" href="{% static "register.css" %}">
+</head>
+<body>
+	{% if registered %}
+
+	<p> Registration successful! </p>
+	<a href="/">Click here to go to login.</a>
+	{% else %}
+	<form action="/register/" method="post">{% csrf_token %}
+		<!--{{form.errors}}-->
+
+		<!--First Name field-->
+		
+		<div class="fieldWrapper">
+			{{user_form.first_name.errors}}		
+			<p><label for="first_name">First Name: </label></p>
+			<!--<input id="fname" type="text" name="fname" maxlength="100"></p>-->
+			{{user_form.first_name}}
+		</div>
+
+		<!--Last Name field-->
+		<div class="fieldWrapper">
+			{{user_form.last_name.errors}}	
+			<p><label for="last_name">Last Name: </label></p>
+			{{user_form.last_name}}
+		</div>
+
+		<!--Username field-->
+		<div class="fieldWrapper">
+			{{user_form.username.errors}}	
+			<p><label for="username">Username: </label></p>
+			{{user_form.username}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{user_form.password.errors}}	
+			<p><label for="password">Password: </label></p>
+			{{user_form.password}}
+		</div>
+
+		<div>
+			{{patient_form.sex.errors}}
+			<p><label for = "sex">Sex: </label></p>
+			{{patient_form.sex}}
+		</div>
+
+
+		<!--dob field-->
+		<div class="fieldWrapper">
+			{{patient_form.dob.errors}}	
+			<p><label for="DOB">DOB: </label></p>
+			{{patient_form.dob}}
+			<!--{{form.dob}}-->
+		</div>	
+		
+		<div class = "fieldWrapper">
+			{{patient_form.sex.errors}}
+			<p><label for = "Sex">Sex :</label></p>
+			{{patient_form.sex}}
+		</div>
+
+		<!--email field-->
+		<div class="fieldWrapper">
+			{{user_form.email.errors}}
+			<p><label for="email">Email: </label></p>
+			{{user_form.email}}
+		</div>
+
+		<!--insurance field-->
+		<div class="fieldWrapper">
+			{{user_form.insurance.errors}}
+			<p><label for="Insurance">Insurance Provider: </label></p>
+			{{patient_form.insurance}}
+		</div>
+
+		<!--Insurance number field-->
+		<div class="fieldWrapper">
+			{{patient_form.insuranceNum.errors}}
+			<p><label for="Insurance Number">Insurance Number: </label></p>
+			{{patient_form.insuranceNum}}
+		</div>
+
+
+
+
+		<div id = "regButton"><input type="submit" name="submit" value="Register" /></div>
+	</form>
+
+	{% endif %}
+</body>
+</html>
+<!--
+<form action="/register/" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {{form.errors}}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+-->

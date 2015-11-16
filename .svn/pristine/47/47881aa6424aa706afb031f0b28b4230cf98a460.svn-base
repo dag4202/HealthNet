@@ -1,0 +1,104 @@
+from django.shortcuts import render, render_to_response
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User,Group
+from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
+from main_patient.models import *
+from main_patient.forms import Patient_Profile_Form
+import logging
+
+logger = logging.getLogger(__name__)
+
+@login_required
+def profile(request):
+	logger.info("patient profile accessed")
+	cont = RequestContext(request)
+	context_dict = {}
+	u = User.objects.get(username=request.user)
+
+	try:
+		up = UserProfile.objects.get(user=u)
+	except:
+		up = None
+
+		context_dict['user'] = u
+		context_dict['userprofile'] = up
+		return render_to_response('name.html', context_dict, cont)
+
+def Register(request):
+	registered = False
+    # if this is a POST request ie. something submitted from the browser
+	if request.method == 'POST':
+		print("\n request method is post \n")
+		#create a form insance and populate it with data from the request
+		form = Patient_Profile_Form(request.POST)
+        #check wether its valid
+		if form.is_valid():
+			print("\nform is valid\n")
+			print("This is the name: " + form.cleaned_data.get('username'))
+			user = User.objects.create_user(username=form.cleaned_data.get('username'),
+				email = form.cleaned_data.get('email'), password = form.cleaned_data.get('password'))
+			
+
+			#user.set_password(form.cleaned_data.get('password'))
+			#user.email = (form.cleaned_data.get('email'))
+			user.last_name = form.cleaned_data.get('lname')
+			user.save()
+
+			user.groups.add(Group.objects.get(name='Patient'))
+
+			model = Patient_Profile()
+			model.fname = form.cleaned_data.get('fname')
+			model.lname = form.cleaned_data.get('lname')
+			model.username = form.cleaned_data.get('username')
+			model.password = form.cleaned_data.get('password')
+			model.password2 = form.cleaned_data.get('password2')
+			model.dob = form.cleaned_data.get('dob')
+			model.insurance = form.cleaned_data.get('insurance')
+			model.insuranceNum = form.cleaned_data.get('insuranceNum')
+			registered = True
+			
+
+			return HttpResponseRedirect('/')
+		else:
+			print(form.errors)
+			#if a GET (or any other method) we'll create a blank form
+	else:
+		form = Patient_Profile_Form(request.POST)
+	return render(request,'name.html',{'form':form})
+        #return render_to_response('name.html',{'user_form': form,'registered':registered},RequestContext(request))
+
+# @login_required
+# def modify(request):
+# 	context = RequestContext(request)
+
+#     registered = False
+
+#     if request.method == 'POST':
+#         user_form = UserForm(data=request.POST)
+#         patient_form = PatientProfileForm(data = request.POST)
+
+#         if user_form.is_valid() and patient_form.is_valid():
+#             user = user_form.save()
+
+#             user.set_password(user.password)
+#             user.save()
+
+#             profile = patient_form.save(commit = False)
+#             profile.user = user
+
+#             profile.save()
+
+#             registered = True
+#         else:
+#             print(user_form.errors, patient_form.errors)
+#     else:
+#         user_form = UserForm()
+#         patient_form = PatientProfileForm()
+
+#     return render_to_response('update.html',
+#                               {'user_form': user_form, 'patient_form': patient_form, 'registered':
+#                                registered}, context)
+
+
+# # Create your views here.

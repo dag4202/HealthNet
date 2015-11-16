@@ -1,0 +1,59 @@
+from django.shortcuts import render, render_to_response
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User,Group, Permission
+from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
+
+from main_patient.forms import Patient_Profile_Form, UserForm, PatientProfileForm
+import logging
+
+logger = logging.getLogger(__name__)
+
+@login_required
+def profile(request):
+	logger.info("patient profile accessed")
+	cont = RequestContext(request)
+	context_dict = {}
+	u = User.objects.get(username=request.user)
+
+	try:
+		up = UserProfile.objects.get(user=u)
+	except:
+		up = None
+
+		context_dict['user'] = u
+		context_dict['userprofile'] = up
+		return render(request, 'name.html', context_dict, cont)
+
+def Register(request):
+	context = RequestContext(request)
+
+	registered = False
+
+	if request.method == 'POST':
+		user_form = UserForm(data=request.POST)
+		patient_form = PatientProfileForm(data = request.POST)
+
+		if user_form.is_valid() and patient_form.is_valid():
+			user = user_form.save()
+			user.set_password(user.password)
+			user.save()
+			
+			user.groups.add(Group.objects.get(name='Patient'))
+
+			profile = patient_form.save(commit = False)
+			profile.user = user
+			profile.save()
+
+			registered = True
+		else:
+			print(user_form.errors, patient_form.errors)
+	else:
+		user_form = UserForm()
+		patient_form = PatientProfileForm()
+
+	return render(request,'name.html',{'user_form': user_form, 'patient_form': patient_form, 'registered':
+								registered})
+
+def Modify_Profile(request):
+	pass

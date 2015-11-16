@@ -1,0 +1,22 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required 
+from django.http import HttpResponse
+from django.template import RequestContext
+from django.contrib.auth.models import Group,User
+from main.models import LogEntry
+
+@login_required
+def main(request):
+	is_Doctor = request.user.groups.filter(name = 'Doctor').exists()
+	is_Patient = request.user.groups.filter(name ='Patient').exists()
+	is_Nurse = request.user.groups.filter(name = 'Nurse').exists()
+	is_Admin = request.user.groups.filter(name = 'Sys Admin').exists()
+
+	return render(request, 'main.html', {'is_Admin' : is_Admin, 
+		'is_Doctor' : is_Doctor, 'is_Nurse' : is_Nurse, 'is_Patient' : is_Patient})
+
+@login_required
+def logView(request):
+	log = LogEntry.objects.all().order_by('datetime')
+	#output = '\n '.join([p.description for p in log])
+	return render(request, 'log.html', {'log': log})

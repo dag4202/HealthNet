@@ -1,0 +1,28 @@
+{% load static %}
+<html>
+  <head>
+    <title>HealthNet</title>
+    <link rel="stylesheet" type="text/css" href="{% static "login.css" %}">
+  </head>
+  <body>
+    <div id="container">
+      <div id="header">
+        <div id="logo"></div>
+      </div>
+      <div id="content">
+        <div id="title">Please log in.</div>
+        <div class="horiz"></div>
+        <form id="login_form" method="post" action="">
+          {% csrf_token %}
+          <input type="text" name="username" placeholder="Email" value = "{{ username }}" class="form" />
+          <input type="password" name="password" placeholder="Password" class="form" />
+          <div id="login_failed">{{ error }}</div>
+        <div id="option_bar" >
+          <input type="submit" value="log in" name="login" class="button" />
+          <input type="button" value="register" name="register" class="button" onclick="location.href='/register/'"  />
+        </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

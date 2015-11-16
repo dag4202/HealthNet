@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Register</title>
+	<link rel="stylesheet" type="text/css" href="{% static "register.css" %}">
+</head>
+<body>
+	{% if registered %}
+
+	<p> Registration successful! </p>
+	<a href="/">Click here to go to login.</a>
+	{% else %}
+	<form action="/register/" method="post">{% csrf_token %}
+		<!--{{form.errors}}-->
+
+		<!--First Name field-->
+		
+		<div class="fieldWrapper">
+			{{user_form.first_name.errors}}		
+			<p><label for="first_name">First Name: </label></p>
+			<!--<input id="fname" type="text" name="fname" maxlength="100"></p>-->
+			{{user_form.first_name}}
+		</div>
+
+		<!--Last Name field-->
+		<div class="fieldWrapper">
+			{{user_form.last_name.errors}}	
+			<p><label for="last_name">Last Name: </label></p>
+			{{user_form.last_name}}
+		</div>
+
+		<!--Username field-->
+		<div class="fieldWrapper">
+			{{user_form.username.errors}}	
+			<p><label for="username">Username: </label></p>
+			{{user_form.username}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{user_form.email.errors}}
+			<p><label for="email">Email: </label></p>
+			{{user_form.email}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{user_form.password.errors}}	
+			<p><label for="password">Password: </label></p>
+			{{user_form.password}}
+		</div>
+
+		{{patient_form.management_form}}
+		{% for entry in patient_form %}
+		{{ entry.id }}
+		<div class = "field">
+			<div class = "field title">
+				<div class = "field_title_div">
+					SEX:
+				</div>
+			</div>
+			<div class = "field_form">
+				{{entry.sex}}
+			</div>
+		</div>
+
+		<div class = "field">
+			<div class = "field title">
+				<div class = "field_title_div">
+					DOB:
+				</div>
+			</div>
+			<div class = "field_form">
+				{{entry.dob}}
+			</div>
+		</div>
+
+		<div class = "field">
+			<div class = "field title">
+				<div class = "field_title_div">
+					Insurance:
+				</div>
+			</div>
+			<div class = "field_form">
+				{{entry.insurance}}
+			</div>
+		</div>
+
+		<div class = "field">
+			<div class = "field title">
+				<div class = "field_title_div">
+					Insurance Number:
+				</div>
+			</div>
+			<div class = "field_form">
+				{{entry.insuranceNum}}
+			</div>
+		</div>
+		{% endfor %}
+
+
+		<!-- <div>
+			{{patient_form.sex.errors}}
+			<p><label for = "sex">Sex: </label></p>
+			{{patient_form.sex}}
+		</div>
+
+
+
+		<div class="fieldWrapper">
+			{{patient_form.dob.errors}}	
+			<p><label for="DOB">DOB: </label></p>
+			{{patient_form.dob}}
+		</div>	
+		
+		<div class = "fieldWrapper">
+			{{patient_form.sex.errors}}
+			<p><label for = "Sex">Sex :</label></p>
+			{{patient_form.sex}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{user_form.email.errors}}
+			<p><label for="email">Email: </label></p>
+			{{user_form.email}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{user_form.insurance.errors}}
+			<p><label for="Insurance">Insurance Provider: </label></p>
+			{{patient_form.insurance}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{patient_form.insuranceNum.errors}}
+			<p><label for="Insurance Number">Insurance Number: </label></p>
+			{{patient_form.insuranceNum}}
+		</div>
+	-->
+
+
+
+	<div id = "regButton"><input type="submit" name="submit" value="Register" /></div>
+</form>
+
+{% endif %}
+</body>
+</html>
+<!--
+<form action="/register/" method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {{form.errors}}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+-->

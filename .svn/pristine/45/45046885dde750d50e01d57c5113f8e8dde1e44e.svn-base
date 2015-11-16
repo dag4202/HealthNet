@@ -1,0 +1,32 @@
+<form action="/get_info/" method="post">
+	{% csrf_token %}
+	{{ form }}
+	
+	<!--First Name field-->
+	<p><label for="fname">First Name: </label>
+	<input id="fname" type="text" name="fname" maxlength="100"></p>
+	
+	<!--Last Name field-->
+	<p><label for="lname">Last Name: </label>
+	<input id="lname" type="text" name="lname" maxlength="100"></p>
+	
+	<!--dob field-->
+	<p><label for="dob">DOB: </label>
+	<input type="date" name="dob" maxlength="100"></p>
+	
+
+	<!--email field-->
+	<p><label for="email">Email: </label>
+	<input type="email" name="email" maxlength="100"></p>
+	
+	<!--insurance field-->
+	<p><label for="Insurance">Insurance Provider: </label>
+	<input type="text" name="provider" maxlength="100"></p>
+	
+
+	<!--Insurance number field-->
+	<p><label for="Insurance Number">Insurance Number: </label>
+	<input type="int" name="iNumber" maxlength="100"></p>
+
+	<input type="submit" value="Submit" />
+</form>

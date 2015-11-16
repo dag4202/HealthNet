@@ -1,0 +1,27 @@
+from django.db import models
+from django.contrib.auth.models import User
+from hospital.models import Hospital
+"""
+Models for Nurse
+"""
+
+class Nurse(models.Model):
+    # This line is required. Links UserProfile to a User model instance. 
+    user = models.OneToOneField(User)
+
+    # The additional attributes we wish to include.
+    GENDER_CHOICES=(('M', 'Male'), ('F', 'Female'))
+    gender = models.CharField(max_length = 1, choices = GENDER_CHOICES)
+    department = models.CharField(max_length = 200)
+    location = models.CharField(max_length = 200)
+    phone = models.CharField(max_length = 11)
+    joined = models.DateField()
+    certification = models.CharField(max_length = 400)
+    schooling = models.CharField(max_length = 400)
+    residency = models.CharField(max_length = 50)
+
+    hospital = models.ForeignKey('hospital.Hospital')
+
+    def __unicode__(self):
+        return self.user.first_name+ ' ' + user.last_name
+    

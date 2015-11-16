@@ -1,0 +1,43 @@
+from django.contrib.auth.models import User
+from main_patient.models import Patient
+from django import forms
+from django.forms import extras
+
+class Patient_Profile_Form(forms.Form):
+    fname = forms.CharField(label = "First Name:")
+    lname = forms.CharField(label = "Last Name:")
+    username = forms.CharField(label = "username",required = False)
+    password = forms.CharField(widget = forms.PasswordInput, required = True)
+    password2 = forms.CharField(widget = forms.PasswordInput, required = True)
+    dob = forms.DateField(label = "DOB:", required = True);
+    email = forms.EmailField(label = "Email:")
+    insurance = forms.CharField(label = "Insurance Provider:")
+    insuranceNum = forms.IntegerField(label = "Insurance Number:")
+    # widgets= {
+    #     'password'  : forms.PasswordInput(),
+    #     'password2'  : forms.PasswordInput(),
+    # }
+    def cleanPassword2(self):
+        password1 = self.cleaned_data.get('password')
+        password2 = self.cleaned_data.get('password2')
+ 
+        if not password2:
+            raise forms.ValidationError("You must confirm your password")
+        if password1 != password2:
+            raise forms.ValidationError("Your passwords do not match")
+        return password2
+
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget = forms.PasswordInput())
+    class Meta:
+        model = User
+        fields = ('username','first_name', 'last_name', 'email', 'password')
+        
+class PatientProfileForm(forms.ModelForm):
+    dob = forms.DateField(widget=extras.SelectDateWidget(years=range(2015,1900,-1)), label = "DOB:", required = True);
+    insurance = forms.CharField(label = "Insurance Provider:")
+    insuranceNum = forms.IntegerField(label = "Insurance Number:")
+
+    class Meta:
+        model = Patient
+        fields = ('sex', 'dob', 'insurance', 'insuranceNum')

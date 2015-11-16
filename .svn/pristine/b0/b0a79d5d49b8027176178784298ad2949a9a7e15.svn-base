@@ -1,0 +1,60 @@
+{% load static %}
+<html>
+  <head>
+    <title>HealthNet - Profile</title>
+    <link rel = "stylesheet" type = "text/css" href = "{% static "main.css" %}" />
+  </head>
+  <body>
+    <div id="header">
+      <a href="/"><div id="logo"></div></a>
+      <div id="logout"><a href="/login/?logout=true">logout</a></div>
+      <div id="menu">
+        <a href="/"><div class="menu">Profile</div></a>
+        <a href="/calendar/"><div class="menu">Calendar</div></a>
+      </div>
+    </div>
+    <div id="content_left">
+      <div id="welcome">Welcome, {{ user.first_name }}.</div>
+      <div class="horiz_left"></div>
+      <div id="info_block">
+        Email: {{ user.email }}<br />
+        <br />
+        [More info goes here]<br />
+      </div>
+      <div class="horiz_left"></div>
+
+    {% for group in user.groups.all %}
+      {% if group.name == 'Doctor' %}
+         <p>     Hello DOC</p>
+      {% endif %}
+    {% endfor %}
+    {% for group in user.groups.all %}
+      {% if group.name == 'Patient' %}
+         <p>      Hello Patient</p>
+      {% endif %}
+    {% endfor %}
+    {% for group in user.groups.all %}
+      {% if group.name == 'Nurse' %}
+         <p>    Hello Nurse</p>
+      {% endif %}
+    {% endfor %}
+
+      <div id="content_right">
+        <div class="right_header">
+          Notifications
+        </div>
+        <div id="notifications" class="right_content">
+          <i>[not implemented yet]</i>
+        </div>
+        <div class="right_header">
+          Upcoming Appointments
+        </div>
+        <div id="upcoming_appointments" class="right_content">
+          <i>[not implemented yet]</i>
+        </div>
+        <div class="right_header">
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    {% if registered %}
+    <p> You did it bra! </p>
+    {% else %}
+    <form id="user_form" method="post" enctype="multipart/form-data">
+      {%csrf_token %}
+      {{ user_form.as_p }}
+      {{ patient_form.as_p }}
+      
+      <input type="submit" name="submit" value="Submit" />
+    </form>
+    {% endif %}
+  </body>
+</html>

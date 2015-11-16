@@ -1,0 +1,13 @@
+{% if log %}
+    <ul>
+    {% for logEntry in log %}
+        <p>{{logEntry.description}} {{logEntry.datetime}} {{logEntry.username}}</p>
+    {% endfor %}
+    <!-- <p>{{output}}</p> -->
+    </ul>
+{% else %}
+    <p>No logs are available.</p>
+{% endif %}
+	<div id = "view system log">
+        <input type = "button" name ="submit" value="return" class = "button" onclick = "location. href='/'">
+     </div>

@@ -1,0 +1,8 @@
+from django.contrib import admin
+
+from main_patient.models import Patient
+
+# class AdminPatient(admin.ModelAdmin):
+# 	list_display = ('sex','dob')
+
+admin.site.register(Patient)

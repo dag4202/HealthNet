@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Doctor Register</title>
+	<link rel="stylesheet" type="text/css" href="{% static "doctor.css" %}">
+</head>
+<body>
+	<div id="header">
+		<a href="/"><div id="logo"></div></a>
+		<div id="logout"><a href="/login/?logout=true">logout</a></div>
+		<div id="menu">
+			<a href="/"><div class="menu">Profile</div></a>
+			<a href="/calendar/"><div class="menu">Calendar</div></a>
+		</div>
+	</div>
+	<div id = "Content_left">
+		{% if registered %}
+		<p> Doctor registered successful! </p>
+		<a href="/">Click here to go to login.</a>
+		{% else %}
+		<form action="/regdoctor/" method="post">
+			{% csrf_token %}
+
+			<div class="fieldWrapper">
+				{{user_form.first_name.errors}}		
+				<p><label for="first_name">First Name: </label>{{user_form.first_name}}</p>
+			</div>
+
+			<div class="fieldWrapper">
+				{{user_form.last_name.errors}}	
+				<p><label for="last_name">Last Name: </label>{{user_form.last_name}}</p>
+			</div>
+
+			<div class="fieldWrapper">
+				{{user_form.username.errors}}	
+				<p><label for="username">Username: </label>{{user_form.username}}</p>
+			</div>
+
+			<div class="fieldWrapper">
+				{{user_form.email.errors}}
+				<p><label for="email">Email: </label>{{user_form.email}}</p>
+			</div>
+
+			<div class="fieldWrapper">
+				{{user_form.password.errors}}	
+				<p><label for="password">Password: </label>{{user_form.password}}</p>
+			</div>
+
+			<div>
+				{{doctor_form.sex.errors}}
+				<p><label for = "sex">Sex: </label>{{doctor_form.sex}}</p>
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.dob.errors}}	
+				<p><label for="DOB">DOB: </label>{{doctor_form.dob}}</p>
+
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.department.errors}}	
+				<p><label for="DOB">Department: </label>{{doctor_form.department}}</p>
+
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.location.errors}}	
+				<p><label for="DOB">Location: </label>{{doctor_form.location}}</p>
+
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.phone.errors}}	
+				<p><label for="DOB">Phone #: </label>{{doctor_form.phone}}</p>
+
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.joined.errors}}	
+				<p><label for="DOB">Joined: </label>{{doctor_form.joined}}</p>
+
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.certification.errors}}	
+				<p><label for="DOB">Certification: </label>{{doctor_form.certification}}</p>
+
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.schooling.errors}}	
+				<p><label for="DOB">Schooling: </label>{{doctor_form.schooling}}</p>
+
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.specialty.errors}}	
+				<p><label for="DOB">Specialty: </label>{{doctor_form.specialty}}</p>
+
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.residency.errors}}	
+				<p><label for="DOB">Residency: </label>{{doctor_form.residency}}</p>
+
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.fellowship.errors}}	
+				<p><label for="DOB">Fellowship: </label>{{doctor_form.fellowship}}</p>
+
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.hospital.errors}}	
+				<p><label for="DOB">Hospital: </label>{{doctor_form.hospital}}</p>
+
+			</div>
+
+			<div class="fieldWrapper">
+				{{doctor_form.patientlist.errors}}	
+				<p><label for="DOB">Patient List: </label>{{doctor_form.patientlist}}</p>
+
+			</div>
+
+			<div id = "regButton"><input type="submit" name="submit" value="Register" /></div>
+		</form>
+	</div>
+	{% endif %}
+</body>
+</html><!-- 
+{% if registered %}
+<p> Doctor registered successful! </p>
+<a href="/">Click here to go to login.</a>
+
+{% else %}
+
+<div class="fieldWrapper">
+	{{user_form.first_name.errors}}		
+	<p><label for="first_name">First Name: </label></p>
+	{{user_form.first_name}}
+</div>
+
+
+<div class="fieldWrapper">
+	{{user_form.last_name.errors}}	
+	<p><label for="last_name">Last Name: </label></p>
+	{{user_form.last_name}}
+</div>
+
+
+<div class="fieldWrapper">
+	{{user_form.username.errors}}	
+	<p><label for="username">Username: </label></p>
+	{{user_form.username}}
+</div>
+
+<div class="fieldWrapper">
+	{{user_form.email.errors}}
+	<p><label for="email">Email: </label></p>
+	{{user_form.email}}
+</div>
+<form action="/regdoctor/" method="post">
+	{% csrf_token %}
+	{{ doctor_form.non_field_errors }}
+	{{ doctor_form.errors}}
+	{{ doctor_form.as_p }}
+	<input type="submit" value="Submit" />
+</form>
+{% endif %} -->

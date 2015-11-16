@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Nurse Register</title>
+	<link rel="stylesheet" type="text/css" href="{% static "regAdmin.css" %}">
+</head>
+<body>
+	{% if registered %}
+	<p> Admin registered successful! </p>
+	<a href="/">Click here to go to login.</a>
+	{% else %}
+	<form action="regadmin/" method="post">
+	{% csrf_token %}
+
+	<div class="fieldWrapper">
+			{{user_form.first_name.errors}}		
+			<p><label for="first_name">First Name: </label></p>
+			<!--<input id="fname" type="text" name="fname" maxlength="100"></p>-->
+			{{user_form.first_name}}
+		</div>
+
+		<!--Last Name field-->
+		<div class="fieldWrapper">
+			{{user_form.last_name.errors}}	
+			<p><label for="last_name">Last Name: </label></p>
+			{{user_form.last_name}}
+		</div>
+
+		<!--Username field-->
+		<div class="fieldWrapper">
+			{{user_form.username.errors}}	
+			<p><label for="username">Username: </label></p>
+			{{user_form.username}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{user_form.email.errors}}
+			<p><label for="email">Email: </label></p>
+			{{user_form.email}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{user_form.password.errors}}	
+			<p><label for="password">Password: </label></p>
+			{{user_form.password}}
+		</div>
+
+		<div id = "createDeps">
+        <input type = "button" name ="submit" value="Create Department" class = "button" onclick = "location. href='createdepartment'">
+      </div>
+
+      <div id = "createHosp">
+        <input type = "button" name ="submit" value="Create Hospital" class = "button" onclick = "location. href='createhospital'">
+      </div>
+
+	<div id = "regButton"><input type="submit" name="submit" value="Register" /></div>
+</form>
+
+{% endif %}
+</body>
+</html>

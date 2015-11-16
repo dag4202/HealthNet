@@ -1,0 +1,103 @@
+from django.db import models
+from django.contrib.auth.models import User
+from hospital.models import Hospital
+
+"""
+@authors: Dyangelo, Mike, Ivi, Todd, Alex
+@models for Patient
+"""
+
+class procedure (models.Model):
+    Patient = models.ForeignKey('main_patient.Patient', unique = True)
+    Doctor = models.ForeignKey('main_patient.Doctor', unique = True)
+    descripition = models.CharField(max_length = 200)
+    date = models.DateField()
+
+class prescripiton(models.Model):
+
+    name = models.CharField(max_length = 200)
+    dosage = models.CharField(max_length = 200)
+    Patient = models.ForeignKey('main_patient.Patient', unique = True)
+    prescribed_by = models.ForeignKey('main_patient.Doctor', unique = True)
+
+
+
+class Patient(models.Model):
+    # This line is required. Links UserProfile to a User model instance.
+    user = models.OneToOneField(User)
+    # patientID = models.IntergerField(default = ,unique = True)
+
+    # The additional attributes we wish to include.
+    SEX_CHOICES = (('M', 'Male'), ('F', 'Female'), ('O', 'Other'))
+    sex = models.CharField(max_length =1, choices = SEX_CHOICES)
+    dob = models.DateField()
+    insurance = models.CharField(max_length = 30)
+    insuranceNum = models.IntegerField(null = True)
+    allergies = models.CharField(max_length = 200)
+
+    #rest of medical information tbd on tuesday
+
+    # Override the __unicode__() method to return out something meaningful!
+    def __str__(self):
+        return self.user.username + ' ' + self.user.first_name + ' ' + self.user.last_name
+    def getPatient():
+        return user
+
+
+
+class Doctor(models.Model):
+    # This line is required. Links UserProfile to a User model instance.
+    user = models.OneToOneField(User)
+
+    # The additional attributes we wish to include.
+    GENDER_CHOICES = (('M', 'Male'), ('F', 'Female'))
+    sex = models.CharField(max_length =1, choices = GENDER_CHOICES)
+    department = models.CharField(max_length = 200)
+    location = models.CharField(max_length = 200)
+    phone = models.CharField(max_length = 11)
+    joined = models.DateField()
+    certification = models.CharField(max_length = 400)
+    schooling = models.CharField(max_length = 400)
+    specialty = models.CharField(max_length = 30)
+    residency = models.CharField(max_length = 50)
+    fellowship = models.CharField(max_length = 50)
+    dob = models.DateField()
+
+    hospital = models.ForeignKey('hospital.Hospital', unique = True)
+    patientlist = models.ManyToManyField('main_patient.Patient')
+
+    # Override the __unicode__() method to return out something meaningful!
+    def __str__(self):
+        return self.user.first_name + ' ' + self.user.last_name
+
+
+
+class Nurse(models.Model):
+    # This line is required. Links UserProfile to a User model instance. 
+    user = models.OneToOneField(User)
+
+    # The additional attributes we wish to include.
+    GENDER_CHOICES=(('M', 'Male'), ('F', 'Female'))
+    sex = models.CharField(max_length = 1, choices = GENDER_CHOICES)
+    department = models.CharField(max_length = 200)
+    location = models.CharField(max_length = 200)
+    phone = models.CharField(max_length = 11)
+    joined = models.DateField()
+    certification = models.CharField(max_length = 400)
+    schooling = models.CharField(max_length = 400)
+    residency = models.CharField(max_length = 50)
+    dob = models.DateField()
+
+    hospital = models.ForeignKey('hospital.Hospital', unique = True)
+
+    def __str__(self):
+        return self.user.first_name+ ' ' + user.last_name
+
+
+class SystemAdmin(models.Model):
+    user = models.OneToOneField(User)
+
+    hospital = models.ForeignKey('hospital.Hospital')
+
+    def __str__(self):
+        return self.user.first_name+ ' ' + user.last_name

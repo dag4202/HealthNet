@@ -1,0 +1,20 @@
+from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import User
+from main_patient.models import Patient 
+from main_doctor.models import Doctor
+
+class Procedure(models.Model):
+
+	#title , datatime, and description are created
+	title = models.CharField(max_length=250)
+	created= models.DateTimeField(auto_now_add=True)
+	#notify who worte the description
+	Description = models.TextField()
+
+	patient = models.ForeignKey('main_patient.Patient')
+	doctor = models.ForeignKey('main_doctor.Doctor', related_name='+')
+
+	#Override method to return its title 
+	def __str__(self):
+		return self.title

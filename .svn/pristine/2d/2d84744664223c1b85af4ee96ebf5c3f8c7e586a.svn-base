@@ -1,0 +1,9 @@
+from django.conf.urls import patterns, url
+from main import views
+
+urlpatterns = patterns('main.views',
+	url(r'^logview', views.logView, name='log'),
+    url(r"", "main", name='main'),
+    url(r'^$', views.logView, name = 'mahname'),
+)
+

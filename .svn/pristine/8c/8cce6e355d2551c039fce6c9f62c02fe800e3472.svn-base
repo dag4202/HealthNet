@@ -1,0 +1,34 @@
+from django.db import models
+from django.contrib.auth.models import User
+from django import forms
+
+"""
+@authors: Dyangelo, Mike, Ivi, Todd, Alex
+@models for Patient
+"""
+
+class Patient(models.Model):
+    # This line is required. Links UserProfile to a User model instance.
+    user = models.OneToOneField(User)
+    # patientID = models.IntergerField(default = ,unique = True)
+
+    # The additional attributes we wish to include.
+    SEX_CHOICES = (('M', 'Male'), ('F', 'Female'), ('O', 'Other'))
+    sex = models.CharField(max_length =1, choices = SEX_CHOICES)
+    dob = models.DateField()
+    #rest of medical information tbd on tuesday
+
+    # Override the __unicode__() method to return out something meaningful!
+    def __unicode__(self):
+        return self.user.first_name + ' ' + self.user.last_name
+    def getPatient():
+        return user
+class Patient_Profile(forms.Form):
+    fname = forms.CharField(label = "First Name:")
+    lname = forms.CharField(label = "Last Name:")
+    dob = forms.DateField(label = "DOB:");
+    email = forms.EmailField(label = "Email:")
+    insurance = forms.CharField(label = "Insurance Provider:")
+    insuranceNum = forms.IntegerField(label = "Insurance Number:")
+
+    

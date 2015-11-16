@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Nurse Register</title>
+	<link rel="stylesheet" type="text/css" href="{% static "doctor.css" %}">
+</head>
+<body>
+	<div id="header">
+		<a href="/"><div id="logo"></div></a>
+		<div id="logout"><a href="/login/?logout=true">logout</a></div>
+		<div id="menu">
+			<a href="/"><div class="menu">Profile</div></a>
+			<a href="/calendar/"><div class="menu">Calendar</div></a>
+		</div>
+	</div>
+	<div id = "Content_left">
+
+	{% if registered %}
+	<p> Admin registered successful! </p>
+	<a href="/">Click here to go to login.</a>
+	{% else %}
+	<form action="regadmin/" method="post">
+	{% csrf_token %}
+
+	<div class="fieldWrapper">
+			{{user_form.first_name.errors}}		
+			<p><label for="first_name">First Name: </label></p>
+			<!--<input id="fname" type="text" name="fname" maxlength="100"></p>-->
+			{{user_form.first_name}}
+		</div>
+
+		<!--Last Name field-->
+		<div class="fieldWrapper">
+			{{user_form.last_name.errors}}	
+			<p><label for="last_name">Last Name: </label></p>
+			{{user_form.last_name}}
+		</div>
+
+		<!--Username field-->
+		<div class="fieldWrapper">
+			{{user_form.username.errors}}	
+			<p><label for="username">Username: </label></p>
+			{{user_form.username}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{user_form.email.errors}}
+			<p><label for="email">Email: </label></p>
+			{{user_form.email}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{user_form.password.errors}}	
+			<p><label for="password">Password: </label></p>
+			{{user_form.password}}
+		</div>
+
+		<div class="fieldWrapper">
+			{{admin_form.hospital.errors}}	
+			<p><label for="password">Hospital: </label></p>
+			{{admin_form.hospital}}
+		</div>		
+
+
+	<div id = "regButton"><input type="submit" name="submit" value="Register" /></div>
+</form>
+</div>
+{% endif %}
+</body>
+</html>
